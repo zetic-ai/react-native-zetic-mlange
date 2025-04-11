@@ -2,7 +2,7 @@
 
 A React Native module that provides a bridge to run on-device AI models with high performance using native implementations in Kotlin (Android) and Swift (iOS).
 
-It's provided by Zetic
+It's provided by ZETIC.ai
 
 [![npm version](https://img.shields.io/npm/v/react-native-zetic.svg)](https://www.npmjs.com/package/react-native-zetic)
 [![license](https://img.shields.io/github/license/zetic-ai/react-native-zetic.svg)](LICENSE)
