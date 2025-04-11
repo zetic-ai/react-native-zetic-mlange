@@ -47,6 +47,9 @@
     "!**/__mocks__",
     "!**/.*"
   ],
+  "jest": {
+    "preset": "react-native"
+  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -70,5 +73,12 @@
         }
       }
     }
+  },
+  "prettier": {
+    "quoteProps": "consistent",
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "useTabs": false
   }
 }
