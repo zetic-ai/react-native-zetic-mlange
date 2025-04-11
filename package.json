@@ -1,6 +1,6 @@
 {
   "name": "react-native-zetic",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "react-native module to use zetic service",
   "main": "src/index",
   "author": " <> ()",
@@ -10,5 +10,34 @@
     "type": "legacy-module",
     "languages": "kotlin-swift",
     "version": "0.49.7"
-  }
+  },
+  "devDependencies": {
+    "react-native": "^0.79.0"
+  },
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "on-device",
+    "ai"
+  ],
+  "files": [
+    "src",
+    "lib",
+    "android",
+    "ios",
+    "cpp",
+    "*.podspec",
+    "react-native.config.js",
+    "!ios/build",
+    "!android/build",
+    "!android/gradle",
+    "!android/gradlew",
+    "!android/gradlew.bat",
+    "!android/local.properties",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__",
+    "!**/.*"
+  ]
 }
