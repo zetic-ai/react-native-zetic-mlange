@@ -1,22 +1,37 @@
-import { NativeModules, Platform } from 'react-native';
+import * as NativeZetic from './NativeZetic';
 
-const LINKING_ERROR =
-  `The package 'react-native-zetic' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo Go\n';
+let instanceId: string | null = null;
 
-const Zetic = NativeModules.Zetic
-  ? NativeModules.Zetic
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
-
-export function multiply(a: number, b: number): Promise<number> {
-  return Zetic.multiply(a, b);
+function create(
+  mlangePersonalToken: string,
+  mlangeModelKey: string
+) {
+  if (!instanceId) {
+    instanceId = String(Date.now());
+  }
+  return NativeZetic.create(instanceId, mlangePersonalToken, mlangeModelKey);
 }
+
+function run(inputs: any[][], callback?: (data: unknown) => void) {
+  if (!instanceId) {
+    throw Error(`Can not find instanceId ${instanceId}`);
+  }
+  return NativeZetic.run(instanceId, inputs, callback);
+}
+
+async function deinit() {
+  if (!instanceId) {
+    throw Error(`Can not find instanceId ${instanceId}`);
+  }
+  await NativeZetic.deinit(instanceId);
+  instanceId = null;
+  return null;
+}
+
+export const Zetic = {
+  create,
+  run,
+  deinit,
+};
+
+export default Zetic;
