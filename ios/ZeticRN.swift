@@ -68,7 +68,6 @@ class ZeticSwift {
             let dataInputs = try ZeticMlangeRNCodec.encode(input: inputs)
             try model.run(dataInputs)
             let output: [Data] = model.getOutputDataArray()
-            StreamManager.shared.startStream(id: instanceId, data: output)
             resolve(output)
         } catch let e as ZeticMLangeError {
             reject(
