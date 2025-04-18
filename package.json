@@ -1,10 +1,10 @@
 {
-  "name": "react-native-zetic",
+  "name": "react-native-zetic-mlange",
   "version": "0.1.0",
   "description": "react-native module to use zetic service",
   "main": "src/index",
-  "author": " <> ()",
-  "license": "UNLICENSED",
+  "author": "Geusan lim<geusan@zetic.ai>",
+  "license": "MIT",
   "homepage": "#readme",
   "create-react-native-library": {
     "type": "legacy-module",

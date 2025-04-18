@@ -4,8 +4,8 @@ A React Native module that provides a bridge to run on-device AI models with hig
 
 It's provided by Zetic
 
-[![npm version](https://img.shields.io/npm/v/react-native-zetic.svg)](https://www.npmjs.com/package/react-native-zetic)
-[![license](https://img.shields.io/github/license/zetic-ai/react-native-zetic.svg)](LICENSE)
+[![npm version](https://img.shields.io/npm/v/react-native-zetic-mlange.svg)](https://www.npmjs.com/package/react-native-zetic-mlange)
+[![license](https://img.shields.io/github/license/zetic-ai/react-native-zetic-mlange.svg)](LICENSE)
 
 ## Features
 
@@ -18,9 +18,9 @@ It's provided by Zetic
 ## Installation
 
 ```sh
-npm install react-native-zetic
+npm install react-native-zetic-mlange
 # or
-yarn add react-native-zetic
+yarn add react-native-zetic-mlange
 ```
 
 ### iOS
@@ -36,7 +36,7 @@ No additional steps required for Android as the module is auto-linked.
 ## Usage
 
 ```javascript
-import Zetic from 'react-native-zetic';
+import Zetic from 'react-native-zetic-mlange';
 
 // Initialize the model
 const initModel = async () => {
@@ -105,7 +105,7 @@ Releases resources used by the model.
 ```javascript
 import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import Zetic from 'react-native-zetic';
+import Zetic from 'react-native-zetic-mlange';
 
 export default function App() {
   const [result, setResult] = useState(null);
@@ -221,4 +221,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-For any issues or feature requests, please file an issue on the [GitHub repository](https://github.com/zetic-ai/react-native-zetic/issues).
+For any issues or feature requests, please file an issue on the [GitHub repository](https://github.com/zetic-ai/react-native-zetic-mlange/issues).
