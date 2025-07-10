@@ -79,7 +79,7 @@ const cleanup = async () => {
 Initializes the on-device AI model.
 
 - **Parameters**:
-  - `personalAccessToken` (string): Your personal access token for authentication
+  - `personalAccessToken` (string): Your personal access token for authentication. check it out [docs]()
   - `modelKey` (string): The specific model key you want to use
 - **Returns**: Promise that resolves when the model is successfully initialized and downloaded
 - **Throws**: Error if initialization fails
