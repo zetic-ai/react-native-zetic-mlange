@@ -83,6 +83,6 @@ def kotlin_version = getExtOrDefault("kotlinVersion")
 dependencies {
   implementation "com.facebook.react:react-android"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation 'com.zeticai.mlange:mlange:1.1.1'
+  implementation 'com.zeticai.mlange:mlange:1.2.4'
 }
 

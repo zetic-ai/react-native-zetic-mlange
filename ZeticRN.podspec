@@ -27,6 +27,7 @@ end
 framework_name = "ZeticMLange"
 repo_path = "zetic-ai/ZeticMLangeiOS"
 framework_dir = "ios/Frameworks"
+version = "1.2.2"
 
 s.prepare_command = <<-CMD
 set -e  # Exit on any error
@@ -34,7 +35,7 @@ set -e  # Exit on any error
 # Variables
 FRAMEWORK_NAME="#{framework_name}"
 REPO="#{repo_path}"
-VERSION="#{s.version}"
+VERSION="#{version}"
 FRAMEWORK_DIR="#{framework_dir}"
 DOWNLOAD_URL="https://github.com/${REPO}/releases/download/${VERSION}/${FRAMEWORK_NAME}.xcframework.zip"
 FRAMEWORK_PATH="${FRAMEWORK_DIR}/${FRAMEWORK_NAME}.xcframework"

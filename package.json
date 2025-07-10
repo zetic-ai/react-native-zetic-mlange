@@ -1,8 +1,8 @@
 {
   "name": "react-native-zetic-mlange",
-  "version": "0.1.0",
+  "version": "1.2.2",
   "description": "react-native module to use zetic service",
-  "main": "src/index",
+  "main": "./index.ts",
   "author": "Geusan lim<geusan@zetic.ai>",
   "license": "MIT",
   "homepage": "#readme",
