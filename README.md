@@ -35,13 +35,15 @@ No additional steps required for Android as the module is auto-linked.
 
 ## Usage
 
+### General model
+
 ```javascript
-import Zetic from 'react-native-zetic-mlange';
+import { ZeticModel } from 'react-native-zetic-mlange';
 
 // Initialize the model
 const initModel = async () => {
   try {
-    await Zetic.create('YOUR_PERSONAL_ACCESS_TOKEN', 'YOUR_MODEL_KEY');
+    await ZeticModel.create('YOUR_PERSONAL_ACCESS_TOKEN', 'YOUR_MODEL_KEY');
     console.log('Model initialized successfully');
   } catch (error) {
     console.error('Failed to initialize model:', error);
@@ -52,7 +54,7 @@ const initModel = async () => {
 const runInference = async (inputData) => {
   try {
     // inputData should be a 2D array of numbers
-    const result = await Zetic.run(inputData);
+    const result = await ZeticModel.run(inputData);
     console.log('Model output:', result);
     return result;
   } catch (error) {
@@ -64,7 +66,7 @@ const runInference = async (inputData) => {
 // Clean up when done
 const cleanup = async () => {
   try {
-    await Zetic.deinit();
+    await ZeticModel.deinit();
     console.log('Model resources released');
   } catch (error) {
     console.error('Error cleaning up:', error);
@@ -72,19 +74,71 @@ const cleanup = async () => {
 };
 ```
 
+### LLM
+
+```tsx
+import {
+  ZeticLLM,
+  ZeticQuantType,
+  ZeticLLMTarget,
+} from 'react-native-zetic-mlange';
+
+const personalAccessKey = 'YOUR_KEY';
+const modelKey = 'YOUR_MODEL_KEY';
+
+async function initModel() {
+  await ZeticLLM.init(
+    personalAccessKey,
+    modelKey,
+    ZeticLLMTarget.LLAMA_CPP,
+    ZeticQuantType.Q6_K // Change Quant Type what you want
+  );
+}
+
+function App() {
+  const isListenerSetup = useRef(false);
+
+  const handleLLMEvent = (type: 'event' | 'error', event: any) => {
+    console.log('LLM Event:', type, event);
+  };
+
+  useEffect(() => {
+    // Setup event listeners using the service
+    if (!isListenerSetup.current) {
+      ZeticLLM.addListener(handleLLMEvent);
+      isListenerSetup.current = true;
+    }
+
+    initModel();
+
+    return () => {
+      // Cleanup listeners
+      ZeticLLM.removeListener();
+      isListenerSetup.current = false;
+    };
+  }, []);
+
+  return <div>{/* Make Chat UI */}</div>;
+}
+```
+
+Check [Example for LLM](https://github.com/zetic-ai/zetic-llm-react-native-template.git)
+
 ## API Reference
 
-### `create(personalAccessToken, modelKey)`
+### General Model (ZeticModel)
+
+#### `create(personalAccessToken, modelKey)`
 
 Initializes the on-device AI model.
 
 - **Parameters**:
-  - `personalAccessToken` (string): Your personal access token for authentication. check it out [docs]()
+  - `personalAccessToken` (string): Your personal access token for authentication. Check out the [docs]()
   - `modelKey` (string): The specific model key you want to use
 - **Returns**: Promise that resolves when the model is successfully initialized and downloaded
 - **Throws**: Error if initialization fails
 
-### `run(inputData)`
+#### `run(inputData)`
 
 Runs inference using the initialized model.
 
@@ -93,19 +147,67 @@ Runs inference using the initialized model.
 - **Returns**: Promise that resolves with the model's output data
 - **Throws**: Error if the model hasn't been initialized or if inference fails
 
-### `deinit()`
+#### `deinit()`
 
 Releases resources used by the model.
 
 - **Returns**: Promise that resolves when cleanup is complete
 - **Throws**: Error if cleanup fails
 
+### LLM Model (ZeticLLM)
+
+#### `init(personalAccessToken, modelKey, target, quantType)`
+
+Initialize the on-device LLM model.
+
+- **Parameters**:
+  - `personalAccessToken` (string): Your personal access token for authentication. Check out the [docs]()
+  - `modelKey` (string): The specific model key you want to use
+  - `target` (string): Target runtime (currently only 'LLAMA_CPP' is supported)
+  - `quantType` (string): Quantization type. Options: 'ORG', 'F16', 'BF16', 'Q8_0', 'Q6_K', 'Q4_K_M', 'Q3_K', 'Q2_K'
+- **Returns**: Promise that resolves when the model is successfully initialized and downloaded
+- **Throws**: Error if initialization fails
+
+#### `addListener(callback)`
+
+Add event listeners for model results.
+
+- **Parameters**:
+  - `callback` (function): Callback function with signature `(type: string, e: EventBody) => void`
+- **Returns**: void
+
+#### `removeListener()`
+
+Remove all event listeners.
+
+- **Returns**: void
+
+#### `run(input)`
+
+Run LLM model inference with input string.
+
+- **Parameters**:
+  - `input` (string): Input text for the model
+- **Returns**: Promise that resolves with an Event (triggers the start event of the model)
+
+#### `stop()`
+
+Stop the LLM model if it's currently running.
+
+- **Returns**: Promise that resolves with an Event (triggers the stop event of the model)
+
+#### `dispose()`
+
+Releases resources used by the model.
+
+- **Returns**: Promise that resolves when cleanup is complete
+
 ## Example
 
 ```javascript
 import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import Zetic from 'react-native-zetic-mlange';
+import { ZeticModel } from 'react-native-zetic-mlange';
 
 export default function App() {
   const [result, setResult] = useState(null);
@@ -115,18 +217,18 @@ export default function App() {
   useEffect(() => {
     // Initialize model when component mounts
     initializeModel();
-    
+
     // Clean up when component unmounts
     return () => {
-      Zetic.deinit()
+      ZeticModel.deinit()
         .then(() => console.log('Model cleaned up'))
-        .catch(err => console.error('Cleanup error:', err));
+        .catch((err) => console.error('Cleanup error:', err));
     };
   }, []);
 
   const initializeModel = async () => {
     try {
-      await Zetic.create('YOUR_PERSONAL_ACCESS_TOKEN', 'YOUR_MODEL_KEY');
+      await ZeticModel.create('YOUR_PERSONAL_ACCESS_TOKEN', 'YOUR_MODEL_KEY');
       setIsModelReady(true);
       setError(null);
     } catch (err) {
@@ -139,15 +241,15 @@ export default function App() {
       setError('Model is not ready yet');
       return;
     }
-    
+
     try {
       // Example input data
       const inputData = [
         [1.0, 2.0, 3.0],
-        [4.0, 5.0, 6.0]
+        [4.0, 5.0, 6.0],
       ];
-      
-      const output = await Zetic.run(inputData);
+
+      const output = await ZeticModel.run(inputData);
       setResult(output);
       setError(null);
     } catch (err) {
@@ -160,15 +262,11 @@ export default function App() {
       <Text style={styles.status}>
         Model status: {isModelReady ? 'Ready' : 'Not Ready'}
       </Text>
-      
+
       {error && <Text style={styles.error}>{error}</Text>}
-      
-      <Button
-        title="Run Model"
-        onPress={runModel}
-        disabled={!isModelReady}
-      />
-      
+
+      <Button title="Run Model" onPress={runModel} disabled={!isModelReady} />
+
       {result && (
         <View style={styles.result}>
           <Text style={styles.resultTitle}>Results:</Text>
@@ -208,6 +306,8 @@ const styles = StyleSheet.create({
   },
 });
 ```
+
+[LLM Example](https://github.com/zetic-ai/zetic-llm-react-native-template.git)
 
 ## Requirements
 
